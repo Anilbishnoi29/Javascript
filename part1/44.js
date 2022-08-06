@@ -1,8 +1,8 @@
-function singHappyBirthday(){
+function singHappyBirthday() {
     console.log("happy birthday to you ......");
 }
 
-function sumThreeNumbers(number1, number2, number3){
+function sumThreeNumbers(number1,number2,number3) {
     return number1 + number2 + number3;
 }
 
@@ -12,11 +12,12 @@ function sumThreeNumbers(number1, number2, number3){
 // input : 1 number 
 // output : true , false 
 
-// function isEven(number){
-//     return number % 2 === 0;
-// }
+function isEven(number) {
+    return (number % 2 === 0) ? "Even" : "Odd";
+}
 
-// console.log(isEven(4));
+console.log(isEven(4));
+console.log(isEven(5));
 
 // function 
 // input : string 
@@ -32,14 +33,14 @@ function sumThreeNumbers(number1, number2, number3){
 // input : array, target (number)
 // output: index of target if target present in array 
 
-function findTarget(array, target){
-    for(let i = 0; i<array.length; i++){
-        if(array[i]===target){
+function findTarget(array,target) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === target) {
             return i;
         }
     }
     return -1;
 }
-const myArray = [1,3,8,90]
-const ans = findTarget(myArray, 4);
-console.log(ans);
+const myArray = [1,3,8,90];
+const ans = findTarget(myArray,4);
+// console.log(ans);

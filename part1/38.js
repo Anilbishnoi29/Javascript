@@ -2,8 +2,8 @@
 const person = {
     name: "harshit",
     age: 22,
-    "person hobbies": ["guitar", "sleeping", "listening music"]
-}
+    "person hobbies": ["guitar","sleeping","listening music"]
+};
 
 // for in loop 
 // Object.keys 
