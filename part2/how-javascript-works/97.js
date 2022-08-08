@@ -1,14 +1,34 @@
-// lexical environment, scope chain
+// const todoBtn = document.querySelector("#todo-btn");
+// const todoLists = document.querySelector(".todo-list");
+// const allBtn = document.querySelectorAll('.todobtnsall button');
 
-const lastName = "Vashistha";
+// todoBtn.addEventListener('click',(e) => {
+//     e.preventDefault();
+//     const todoInput = document.querySelector("#todo-input").value;
+//     if (todoInput !== "") {
+//         todoLists.insertAdjacentHTML('beforeend',`<li>${todoInput} <button onclick = "removeTodo(event);" > x</button> </li>`);
+//     } else {
+//         alert("Task can't be blank");
+//     }
+//     document.querySelector("#todo-input").value = "";
 
-const printName = function(){
-    const firstName = "harshit";
-    function myFunction(){
-        console.log(firstName);
-        console.log(lastName);
-    }
-    myFunction()
-    
-}
-printName();
+// });
+// function removeTodo(event) {
+//     event.target.parentNode.remove();
+// }
+// for (let btn of allBtn) {
+//     btn.addEventListener('click',function () {
+//         console.log(this);
+//     });
+// }
+
+const mouseBG = document.querySelector(".mouse");
+document.addEventListener('mousemove',function (event) {
+    mouseBG.style.cssText = `left:${event.clientX}px;  top:${event.clientY}px;`;
+    // mouseBG.style.cssText = "left:" + event.clientX + "px; top:" + event.clientY + "px;";
+    // mouseBG.style.cssText = ``;
+
+    console.log(
+        "clientX: ",event.clientX,
+        "clientY:",event.clientY);
+});

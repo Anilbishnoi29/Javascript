@@ -1,16 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How JavaScript Works</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(0, 0, 0, 0.979);
+            overflow: hidden;
+        }
+
+        .todos {
+            width: 350px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .todo-list li {
+            width: 250px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #EFEFEF;
+            padding: .5rem;
+            margin-bottom: .3rem;
+            align-items: center;
+            overflow: hidden;
+            transition: .2s ease-in;
+        }
+
+        .todo-list li:hover button {
+            transition: .2s ease-in;
+            opacity: 1;
+        }
+
+        .todo-list li button {
+            background-color: #e78888;
+            opacity: 0;
+            border: 1px solid #d17676;
+            transition: .2s ease-in;
+            cursor: pointer;
+        }
+
+        todo-list li button:hover li {
+            text-decoration: line-through;
+        }
+
+        .todo input,
+        .todo button {
+            padding: .3rem;
+        }
+
+        .body {
+            background-image: url(./filled.png);
+            background-repeat: repeat;
+            background-size: auto;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .mouse {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(180deg, #FF9933 0%, #FFF 50%, #128807 100%);
+            /* border: 1px solid rgba(0, 0, 0, 0.377); */
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+            background-size: contain;
+            transform: translate(-50%, -50%);
+            filter: blur(30px);
+            /* transition: .05s ease-in-out; */
+        }
+
+    </style>
 </head>
+
 <body>
-    
-    <!-- <script src="./hjw_01.js"></script> -->
+    <div class="body">
+        <div class="mouse"></div>
+        <!-- <div class="todos">
+            <h2>Todo-Lists</h2>
+            <form action="" class="todo">
+                <input type="text" id="todo-input">
+                <button id="todo-btn">add</button>
+            </form>
+            <div class="todobtnsall">
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+            </div>
+            <ul class="todo-list">
+            </ul>
+        </div> -->
+    </div>
+    <!-- <script src="./96.js"></script> -->
+    <script src="./97.js"></script>
     <!-- <script src="./hjw_02.js"></script> -->
     <!-- <script src="./hjw_03.js"></script> -->
-    <script src="./hjw_04.js"></script>
+    <!-- <script src="./hjw_04.js"></script> -->
 </body>
+
 </html>
