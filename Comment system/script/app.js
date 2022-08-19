@@ -1,60 +1,18 @@
-let commentArr = new Array(); // this is arr for store all comments
-if (commentArr.length) renderComments();
+// select input and button
+const commentBox = document.querySelector('#commentBox');
+const commentSubmit = document.querySelector('#commentSubmit');
 
-// event handle
-const addButton = document.getElementById("add-comment");
-addButton.addEventListener("click",(e) => {
+const commentListArr = []; // this for store comments
+
+commentSubmit.addEventListener('click',(e) => {
     e.preventDefault();
-    let content = document.getElementById("comment");
-    if (content.value.trim() !== "") {
-        addComment(content.value,null);
+    if (commentBox.value.trim() !== "") {
+        addComment(commentBox.value,null);
         renderComments();
     } else {
-        alert('write some good comments');
-    }
-    content.value = "";
+        alert('write some good comment!');
+    } commentBox.value = "";
 });
-
-// renderSingleComment and push to ui
-let renderSingleComment = (comment) => {
-    let list = `<div class="hr"><hr/></div>
-        <li id="comment-${comment.id}" style="max-width:600px;">
-        <div>${comment.content}</div>
-        <div><a href="#" role="button" id="reply-${comment.id}">Reply</a></div>`;
-
-    if (comment.childrenIds.length != 0) {
-        list += `<ul id="childlist-${comment.id}">`;
-        comment.childrenIds.forEach(commentId => {
-            list += renderSingleComment(commentArr[commentId]);
-        });
-        list += `</ul>`;
-    }
-
-    list += `</li>`;
-    return list;
-};
-
-// Pass parent comment from rootComments to renderComment
-let renderComments = () => {
-    let rootComments = [];
-    let commentList = '';
-    commentArr.forEach(comment => {
-        if (comment.parentId === null || comment.parentId === 'null') {
-            commentList += renderSingleComment(comment);
-        }
-    });
-    document.querySelector("#commentsList").innerHTML = commentList;
-};
-
-// Adding new comment to UI
-let addComment = (content,parent) => {
-    let comment = new Comment(commentArr.length,content,parent);
-    commentArr.push(comment);
-    if (parent != null) {
-        commentArr[parent].childrenIds.push(commentArr.length - 1);
-    }
-    renderComments();
-};
 
 // class for add new comment
 class Comment {
@@ -64,6 +22,43 @@ class Comment {
         this.childrenIds = [];
         this.parentId = parentId;
     }
+}
+// add comment
+function addComment(content,parent) {
+    let comment = new Comment(commentListArr.length,content,parent);// id = commentListArr.length
+    commentListArr.push(comment);
+    if (parent != null) {
+        commentListArr[parent].childrenIds.push(commentListArr.length - 1); // this for child comment's parent id
+    }
+    renderComments();
+}
+// render comments
+function renderComments() {
+    let commentHTML = '';
+    commentListArr.forEach(comment => {
+        if (comment.parentId === null || comment.parentId === 'null') {
+            commentHTML += renderSingleComment(comment);
+        }
+    });
+    document.querySelector('#commentsList').innerHTML = commentHTML;
+}
+// renderSingleComment
+function renderSingleComment(comment) {
+    let list = `<div class="hr"><hr/></div>
+        <li id="comment-${comment.id}" >
+        <div>${comment.content}</div>
+        <div><a href="#" role="button" id="reply-${comment.id}">Reply</a></div>`;
+
+    if (comment.childrenIds.length != 0) {
+        list += `<ul id="childlist-${comment.id}">`;
+        comment.childrenIds.forEach(commentId => {
+            list += renderSingleComment(commentListArr[commentId]);
+        });
+        list += `</ul>`;
+    }
+
+    list += `</li>`;
+    return list;
 }
 
 // add reply to action
@@ -91,7 +86,7 @@ commentsList.addEventListener("click",(event) => {
             if (childListElem == null) {
                 childListElem = `<ul id="childlist-${event.target.id.split("reply-")[1]}"> ${inputElem} </ul>`;
                 document.getElementById(`comment-${id}`).innerHTML += childListElem;
-                commentsList.innerHTML += childListElem;
+                // commentsList.innerHTML += childListElem;
             } else {
                 childListElem.innerHTML = inputElem + childListElem.innerHTML;
             }
