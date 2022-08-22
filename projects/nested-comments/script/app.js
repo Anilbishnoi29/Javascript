@@ -30,6 +30,7 @@ let renderSingleComment = (comment) => {
         list += `</ul>`;
     }
 
+
     list += `</li>`;
     return list;
 };
@@ -52,6 +53,7 @@ let addComment = (content,parent) => {
     commentArr.push(comment);
     if (parent != null) {
         commentArr[parent].childrenIds.push(commentArr.length - 1);
+        console.log(commentArr.length - 1,parent,commentArr[parent]);
     }
     renderComments();
 };
@@ -63,6 +65,7 @@ class Comment {
         this.content = content;
         this.childrenIds = [];
         this.parentId = parentId;
+
     }
 }
 
@@ -91,7 +94,7 @@ commentsList.addEventListener("click",(event) => {
             if (childListElem == null) {
                 childListElem = `<ul id="childlist-${event.target.id.split("reply-")[1]}"> ${inputElem} </ul>`;
                 document.getElementById(`comment-${id}`).innerHTML += childListElem;
-                commentsList.innerHTML += childListElem;
+                // commentsList.innerHTML += childListElem;
             } else {
                 childListElem.innerHTML = inputElem + childListElem.innerHTML;
             }

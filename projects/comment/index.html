@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/app.js" defer></script>
+    <title>comment</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="post">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat repudiandae voluptatibus sint dolor nam
+                cupiditate maxime nesciunt dolores omnis asperiores earum molestias quasi similique dolorem est corrupti
+                eligendi magni doloribus voluptatem, laboriosam excepturi ab? Facere neque a nisi consectetur, alias,
+                voluptas et doloribus earum nostrum consequatur quasi minus! Voluptates, dolorum?</p>
+            <div class="commentFooter">
+                <div class="d-flex flex-sb">
+                    <a href="" role="button" id="like-post"><i class="fa-solid fa-thumbs-up"></i> Like</a>
+                    <a href="" role="button" id="post-comment">Comment<i class="fa-solid fa-comment"></i></a>
+                    <a href="" role="button" id="post-share">Share<i class="fa-solid fa-share"></i></a>
+                </div>
+
+                <div class='main-comment-container d-none'>
+                    <textarea id='main-comment'></textarea>
+                    <div class='d-flex'><a href="" role="button" id="post-comment-submit"
+                            class='post-comment-submit'>Submit</a>
+                    </div>
+                </div>
+            </div>
+            <div id="childComment"></div>
+        </div>
+    </div>
+</body>
+
+</html>
