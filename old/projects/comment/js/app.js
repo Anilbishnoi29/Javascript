@@ -96,7 +96,7 @@ function renderSingleComment(comment) {
         list += `</div > <span class="like-post-icon">${emojiArr[0]}</span></a >`;
     }
     list += `<a href="" role="button" id="reply-${comment.id}">Reply</a>
-            <a href="" role="button" id="delete-${comment.delete}">Delete</a>
+            <a href="" role="button" id="delete-${comment.id}">Delete</a>
             <a style="margin-left:auto">${(comment.totalLike == 0) ? '' : comment.totalLike} ${comment.like}</a></div > `;
     if (comment.childID.length > 0) {
         list += `< ul id = "child-${comment.id}`;
@@ -127,17 +127,17 @@ document.querySelector('#childComment').addEventListener('click',e => {
         renderComment();
     }
     if (type === "delete") {
-        let deleteIndex;
-        console.log(id);
-        commentArr.forEach((comment,i) => {
-            if (comment.delete === +id) {
-                deleteIndex = i;
-                console.log(comment.delete === id);
-                console.log(deleteIndex);
-            }
-        });
-        console.log(deleteIndex);
-        commentArr.splice(deleteIndex,1);
+        // let deleteIndex;
+        // commentArr.forEach((comment,i) => {
+        //     if (comment.delete === +id) {
+        //         console.log(i);
+        //         deleteIndex = i;
+        //         console.log(comment.delete === id);
+        //         console.log(deleteIndex);
+        //     }
+        // });
+        commentArr.splice(id);
+        console.log(commentArr);
         localStorage.setItem("comment",JSON.stringify(commentArr));
         renderComment();
     }
