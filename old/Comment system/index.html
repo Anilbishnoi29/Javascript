@@ -5,21 +5,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="script/app.js" defer></script>
-    <title>Nested Comment System</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+    <title>comment</title>
 </head>
 
 <body>
     <div class="container">
-        <div class="formControl">
-            <h2>Comment Box</h2>
-            <div><textarea id="commentBox" rows="5" placeholder="comment here" autofocus></textarea>
-            </div>
-            <div><button type="button" id="commentSubmit">Submit</button></div>
-        </div>
+        <div id="idComment">
+            <img id="img"
+                src="https://i.pinimg.com/736x/6a/22/9c/6a229c0b44e287eaf176e3cada7e77c9--cool-backgrounds-abstract-backgrounds.jpg"
+                alt="img" width="100%" height="auto">
 
-        <div id="commentsList"></div>
+            <div class="footerComment">
+                <a href="#" id="likeMain">Like</a>
+                <a href="#" id="replyMain">Reply</a>
+                <a href="#" id="shareMain">Share</a>
+            </div>
+            <div class="mainCommentInput">
+                <textarea name="text" id="mainComment" width="100%" rows="6" required no-resize></textarea>
+                <a href="#" id="mainCommentBtn">Submit</a>
+            </div>
+        </div>
+        <div id="childComment"> </div>
     </div>
 </body>
 
