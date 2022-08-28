@@ -21,7 +21,6 @@ let renderSingleComment = (comment) => {
         <li id="comment-${comment.id}" style="max-width:600px;">
         <div>${comment.content}</div>
         <div><a href="#" role="button" id="reply-${comment.id}">Reply</a></div>`;
-
     if (comment.childrenIds.length != 0) {
         list += `<ul id="childlist-${comment.id}">`;
         comment.childrenIds.forEach(commentId => {
@@ -29,8 +28,6 @@ let renderSingleComment = (comment) => {
         });
         list += `</ul>`;
     }
-
-
     list += `</li>`;
     return list;
 };

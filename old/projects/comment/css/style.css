@@ -11,7 +11,8 @@ body {
 }
 
 .container {
-    width: 580px;
+    max-width: 480px !important;
+    width: 100%;
     margin: auto;
     max-width: 100%;
     padding: 0 1rem;
@@ -56,17 +57,19 @@ a {
     color: rgb(27, 67, 199);
 }
 
-#main-comment {
+#main-comment,
+#childComment {
     width: -webkit-fill-available;
-    margin: 1rem;
+    margin: .5rem;
     resize: none;
     height: 5rem;
     padding: .5rem;
 }
 
-#post-comment-submit {
+#post-comment-submit,
+#childCommentSubmit {
     display: flex;
-    margin-left: auto;
+    margin-left: auto !important;
     color: rgb(27, 67, 199);
 }
 
@@ -76,8 +79,9 @@ a {
 
 #childComment li {
     list-style: none;
-    padding: 0.5rem;
-    border-bottom: 1px solid #c0c0c0;
+    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 1px solid #c0c0c080;
 }
 
 #childComment li a {
@@ -168,3 +172,5 @@ a {
     height: 40px;
     line-height: 24px;
 }
+
+/* .child-comment-container {} */

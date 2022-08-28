@@ -3,36 +3,48 @@ if (JSON.parse(localStorage.getItem("comment"))) {
     localComment.push(JSON.parse(localStorage.getItem("comment")));
 }
 const commentArr = (localComment.length > 0) ? [...localComment[0]] : [];
+// console.log(commentArr);
 const emojiArr = ['👍️','🔥','😆','😂','🙂'];
 const commentBTN = document.querySelector('#post-comment');
 const commentFooter = document.querySelector('.commentFooter');
-// open comment box
+let mainCommentIsOpen = false;
+renderComment();
 commentBTN.addEventListener('click',e => {
     e.preventDefault();
     const isOpen = document.querySelector('.main-comment-container');
-    isOpen.classList[1] === 'd-none' ? isOpen.classList.remove('d-none') : isOpen.classList.add('d-none');
+    if (isOpen.classList[1] === 'd-none') {
+        isOpen.classList.remove('d-none');
+    } else {
+        isOpen.classList.add('d-none');
+    }
 });
+
 document.querySelector('.commentFooter').addEventListener('click',e => {
     e.preventDefault();
     if (e.target.className === 'post-comment-submit') {
         const mainComment = document.querySelector('#main-comment').value;
-        addComment(randomID(),mainComment,randomID());
+        addComment(mainComment,null);
         document.querySelector('#main-comment').value = '';
         document.querySelector('.main-comment-container').classList.add('d-none');
-        renderComment();
     }
 });
-// create random id
+// random ID
 function randomID() {
-    return Math.trunc(Math.random() * 10000000);
+    return Math.trunc(Math.random() * 100000000000000);
 }
-// Create new comment
-function addComment(id,content,parentID) {
-    let comment = new Comment(id,content,parentID);
+// add comment to commentArr
+function addComment(content,parentID) {
+    let comment = new Comment((id = randomID()),content,parentID);
     commentArr.push(comment);
-    renderComment();
+    if (parentID != null) {
+        // commentArr[commentArr.length].childID.push(commentArr.length);
+        commentArr[parentID].childID.push(commentArr.length - 1);
+    }
     localStorage.setItem("comment",JSON.stringify(commentArr));
+    // localStorage.setItem("comment",JSON.stringify([JSON.parse(localStorage.getItem("comment") || comment)]));
+    renderComment();
 }
+
 class Comment {
     constructor (id,content,parentID) {
         this.id = id;
@@ -42,21 +54,36 @@ class Comment {
         this.childID = [];
         this.likeIcon = (this.like.length > 0) ? this.like[0] : emojiArr[0];
         this.totalLike = 0;
+        this.delete = idGet();
     }
 }
-// renderComment
-renderComment();
+function idGet() {
+    let id = Math.trunc(Math.random() * 10000000000);
+    if (commentArr.length > 0) {
+        commentArr.forEach(comment => {
+            if (comment.delete === +id) {
+                idGet();
+            }
+        });
+    } else {
+        return id;
+    }
+}
+// render comment on UI
 function renderComment() {
     let commentHTML = '';
     commentArr.forEach(comment => {
-        commentHTML += renderSingleComment(comment);
+        if (comment.parentID === null || comment.parentID === 'null') {
+            commentHTML += renderSingleComment(comment);
+        }
     });
     document.querySelector('#childComment').innerHTML = commentHTML;
 }
-
 // renderSingleComment()
 function renderSingleComment(comment) {
-
+    // if (comment.childID.length > 0) {
+    //     comment.childID.forEach(commendID => console.log(commendID));
+    // }
     let list = `
             <li class="d-flex" id="comment-${comment.id}">
             <div class="userDP">DP</div>
@@ -93,8 +120,25 @@ function renderSingleComment(comment) {
 document.querySelector('#childComment').addEventListener('click',e => {
     e.preventDefault();
     const [type,id] = e.target.id.split("-");
-    console.log(type,id);
-
+    if (e.target.nodeName === "SPAN") {
+        e.target.parentNode.nextElementSibling.innerText = e.target.innerText;
+        e.target.parentNode.nextElementSibling.classList.add('after-liked');
+        const [type,id] = e.target.parentNode.parentNode.id.split('-');
+        commentArr[id].like[0] = e.target.innerText;
+        commentArr[id].totalLike = commentArr[id].like.length;
+        console.log(commentArr);
+        e.target.parentNode.nextElementSibling.style.fontSize = '1.5rem';
+        e.target.parentNode.nextElementSibling.parentNode.style.marginTop = '0rem';
+        localStorage.setItem("comment",JSON.stringify(commentArr));
+        renderComment();
+    }
+    if (type === "delete") {
+        let currentCommentIndex;
+        commentArr.forEach((comment,index) => (+id === comment.id) ? currentCommentIndex = index : "Invalid ID");
+        // console.log(commentArr[currentCommentIndex].childID);
+        deleteComment(currentCommentIndex);
+        // commentArr.splice(currentCommentIndex,1);
+    }
     if (type === "reply") {
         const childCommentContainer = document.createElement('div');
         childCommentContainer.innerHTML = `<div class='child-comment-container' id='childCommentList'>
@@ -119,4 +163,24 @@ function getChildComment(id) {
             });
         }
     });
+}
+// delete Comment
+function deleteComment(commentIndex) {
+    if (commentArr[commentIndex].childID.length > 0) {
+        commentArr[commentIndex].childID.forEach(comment => {
+            deleteComment(comment);
+        });
+    }
+    const deleted = commentArr.splice(commentArr[commentIndex].id,1);
+    if (deleted[0].parentID !== null) {
+        let target = commentArr[deleted[0].parentID];
+        console.log(target,deleted[0].id);
+        target.childID = target.childID.filter(comment => {
+            return comment !== deleted[0].id;
+        });
+        console.log(target,deleted[0].id);
+    }
+
+    localStorage.setItem("comment",JSON.stringify(commentArr));
+    renderComment();
 }
