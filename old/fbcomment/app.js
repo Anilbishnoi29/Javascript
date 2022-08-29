@@ -3,7 +3,9 @@ let localComment = [];
 if (JSON.parse(localStorage.getItem("comment"))) {
     localComment.push(JSON.parse(localStorage.getItem("comment")));
 }
-const emojiArr = ['👍️','🔥','😆','😂','🙂']; //emoji for likes
+
+console.log();
+const emojiArr = ['👍️','🔥','😆','😂','😍','👌','😎']; //emoji for likes
 // copy deep copy of localStorage to commentList
 function createDeepCopy(input) {
     // base condition
@@ -31,14 +33,18 @@ document.querySelector('#replyMain').addEventListener('click',e => {
 document.querySelector('#mainCommentBtn').addEventListener('click',e => {
     e.preventDefault();
     const content = document.querySelector('#mainComment').value;
-    if (isMainComment) {
-        createComment(randomID(),content,randomID(),'parent');
+    if (content.trim() === "") {
+        alert("Enter a comment");
     } else {
-        createComment(commentID,content,childParentID,'child');
-        isMainComment = true;
+        if (isMainComment) {
+            createComment(randomID(),content,randomID(),'parent');
+        } else {
+            createComment(commentID,content,childParentID,'child');
+            isMainComment = true;
+        }
+        document.querySelector('#mainComment').value = '';
+        document.querySelector(".mainCommentInput").style.display = "none";
     }
-    document.querySelector('#mainComment').value = '';
-    document.querySelector(".mainCommentInput").style.display = "none";
     renderComment();
 });
 // random id for comment id or parent id
@@ -53,21 +59,29 @@ function getUserName() {
 
 // create comment
 function createComment(id,content,parentID,type) {
-    const comment = {
-        id,
-        parentID,
-        content,
-        childIDs: [],
-        type,
-        time: new Date(),
-        userName: getUserName(),
-        like: [],
-        likeIcon: null,
-        totalLikes: 0,
+    fetch('https://randomuser.me/api/')
+        .then(res => res.json())
+        .then(data => makeReadyComment(id,content,parentID,type,(data.results[0].picture.medium)));
+    function makeReadyComment(id,content,parentID,type,imageURL) {
+        const comment = {
+            id,
+            parentID,
+            content,
+            childIDs: [],
+            type,
+            time: new Date(),
+            userName: getUserName(),
+            like: [],
+            likeIcon: null,
+            totalLikes: 0,
+            imageURL,
+        };
+        commentList.push(comment);
+        commentList.forEach((oldComment,index) => (oldComment.id === comment.parentID) ? commentList[index].childIDs.push(+id) : "");
+        localStorage.setItem("comment",JSON.stringify(commentList));
+        renderComment();
     };
-    commentList.push(comment);
-    commentList.forEach((oldComment,index) => (oldComment.id === comment.parentID) ? commentList[index].childIDs.push(+id) : "");
-    localStorage.setItem("comment",JSON.stringify(commentList));
+
 }
 // render comment
 renderComment();
@@ -80,18 +94,18 @@ function renderComment() {
 
 // render nested comment
 function nestedComment(childComment,replyUserName = null) {
-    let time = (Math.floor((new Date() - Date.parse(childComment.time)) / 1000 / 60));
+    let time = Math.trunc((Math.floor((new Date() - Date.parse(childComment.time)) / 1000 / 60)));
     let list = `<li id='${childComment.id}' parentID='${childComment.parentID}'>
                 <div class='d-flex'>
                 <h1 class='dp'>
-                    <img src='https://cdn4.iconfinder.com/data/icons/instagram-ui-twotone/48/Paul-18-512.png' width='40px' height='auto' alt=''>
+                    <img src='${childComment.imageURL}' width='40px' height='auto' alt=''>
                 </h1>
                 <div class='d-flex column'>
                     <span id='repliedON'>${(replyUserName === null) ? "" : `@replied on<a href="#">${replyUserName}</a>`}</span>
                 <p><a href="#">${childComment.userName}</a> ${childComment.content}</p>
                 <span id='totalLikes'>${(childComment.totalLikes === 0) ? "" : `<a href="#">${childComment.totalLikes} ${childComment.like[0]}</a>`}</span>
                 <div class='d-flex flex-sb'>
-                <span class='time'>${time < 60 ? time + ' MINUTES ' : time / 60 + ' HOURS '}AGO</span >
+                <span class='time'>${time < 60 ? time + ' MINUTES ' : Math.trunc(time / 60) + ' HOURS '}AGO</span >
                 <div class='d-flex'><a role="button" class="like-post" id="like-${childComment.id}">
                 <div class="like-empji">`;
 

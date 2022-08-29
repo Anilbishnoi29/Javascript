@@ -35,7 +35,7 @@ function getUserData() {
         setTimeout(() => {
             console.log("Got user data");
             resolve();
-        },1000);
+        });
     });
 }
 function displayUserData() {
